@@ -54,12 +54,12 @@ And so on and so forth.
 
 These (nested) for loops have in common that they are the programmatic representation of mathematical sums. This project aims at finding closed form solutions to this kind of for loops, that is, transforming them into code without any for loops.
 ## How it works
-The examples above (except the last one) consist of 3 types of expressions: for loops, if clauses and summands. The goal is to eliminate all for loops. If we find universal transformation rules for these 3 types of expressions we can let a computer do the rest.
+The examples above (except the last one) consist of 3 types of expressions: for loops, if statements and summands. The goal is to eliminate all for loops. If we find universal transformation rules for these 3 types of expressions we can let a computer do the rest.
 #### Transforming a for loop over a summand
 As mentioned above this project's goal isn't to solve mathematical problems. Mathematicians have been doing that for hundreds of years. This project uses Sympy, a Python library for symbolic mathematics, to solve these problems.
 
-Now we can transform for loops over a summand. What if there is an if clause inbetween though?
-#### Merging an if clause into a for loop
+Now we can transform for loops over a summand. What if there is an if statement inbetween though?
+#### Merging an if statement into a for loop
 ```
 for i in range(a, b):
     if c < i:
@@ -77,14 +77,14 @@ Therefor, the example becomes
 for i in range(max(a, c + 1), b):
     r += i
 ```
-That's a for loop over a summand and as mentioned in [Merging an if clause into a for loop](#transforming-a-for-loop-over-a-summand) we can let Sympy do the rest.
+That's a for loop over a summand and as mentioned in [Merging an if statement into a for loop](#transforming-a-for-loop-over-a-summand) we can let Sympy do the rest.
 
 With the formula for the [second example](#motivation) it can be done manually too:
 ```
 r = (b**2 - b + max(a, c + 1) - max(a, c + 1)**2) / 2
 ```
 #### What to do with min/max?
-The last example contains calls to `min()` and `max()`. As shown above, merging if clauses into for loops also creates such terms.
+The last example contains calls to `min()` and `max()`. As shown above, merging if statements into for loops also creates such terms.
 
 Unfortunatelly, dealing with `min()` and `max()` isn't exactly straight forward. If you want to understand how it is done take a look at the code, specifically at the `eliminate_symbol_from_max_min()` methods and the `SympyMaxMinSplitter` class.
 ## Usage
@@ -112,5 +112,20 @@ The function in [real_world_example.cpp](real_world_example.cpp) returns a `std:
 The solution: Using this algorithm to calculate the number of possibilities first. Once you know this number you can reserve just as much memory as necessary resulting in just a single allocation and no reallocations. (Btw., no, a linked list wouldn't have solved the problem. A linked list doesn't require reallocations, yes, but it requires one small allocation per element which is way more expensive than just a single big allocation)
 ## Performance
 ### Time complexity
+The complexity of a simple for loop
+```
+for i in range(n):
+    ...
+```
+is $\mathcal{O}(n)$.
+For a nested for loop
+```
+for i in range(n_1):
+    for j in range(n_2):
+        ...
+```
+the complexity is $\mathcal{O}(n_1*n_2)$.
+
+Generally speaking, the complexity of a m-fold for loop is $\mathcal{O}(n_1*...*n_m)$ which can written as $\mathcal{O}(n^m)$. If statements and `min()/max()` terms 
 ### Runtime
 ## Performance of the algorithm itself
