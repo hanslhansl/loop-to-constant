@@ -84,7 +84,8 @@ With the formula for the [second example](#motivation) it can be done manually t
 r = (b**2 - b + max(a, c + 1) - max(a, c + 1)**2) / 2
 ```
 ## Usage
-Download loop-to-constant.py. 
+Download loop-to-constant.py. At the very end of the file you will find the variable `python_string`. Set it to your Python code (or try the provided example). Execute.
+### Dependencies
 ## A real world example
 ## Performance
 ### Time complexity
