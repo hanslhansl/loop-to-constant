@@ -4,20 +4,7 @@ import sympy, sympy.logic.boolalg as boolalg, sympy.core, sympy.core.relational,
 
 
 
-print_info = True
-"""print debug info to the terminal (in ResolvedIf.eliminate_symbol_from_max_min and Increment.eliminate_symbol_from_max_min)"""
-simplify_increment_expression = False
-"""simplify the increment expression passed to Increment.__init__"""
-simplify_condition = False
-"""simplify the condition passed to If.__init__ and ResolvedIf.from_condition"""
-simplify_dnf = True
-"""force sympy.to_dnf to simplify its result (in If.resolve)"""
-merge_sibling_increment_statements = True
-"""merge two increment statements if they have the same symbol (in StatementBlock.resolve)"""
-conjoin_sibling_if_statements = True
-"""merge two sibling if clauses if they have the same condition (in StatementBlock.resolve)"""
-evaluate_common_subexpressions = True
-"""identify common subexpressions, collect them and evaluate them at once (in ResolvedBlock.cse)"""
+
 
 
 Inequality = sympy.GreaterThan | sympy.LessThan | sympy.StrictGreaterThan | sympy.StrictLessThan
@@ -644,6 +631,20 @@ class Python:
     pass
 
 
+print_info = True
+"""print debug info to the terminal (in ResolvedIf.eliminate_symbol_from_max_min and Increment.eliminate_symbol_from_max_min)"""
+simplify_increment_expression = False
+"""simplify the increment expression passed to Increment.__init__"""
+simplify_condition = False
+"""simplify the condition passed to If.__init__ and ResolvedIf.from_condition"""
+simplify_dnf = True
+"""force sympy.to_dnf to simplify its result (in If.resolve)"""
+merge_sibling_increment_statements = True
+"""merge two increment statements if they have the same symbol (in StatementBlock.resolve)"""
+conjoin_sibling_if_statements = True
+"""merge two sibling if clauses if they have the same condition (in StatementBlock.resolve)"""
+evaluate_common_subexpressions = True
+"""identify common subexpressions, collect them and evaluate them at once (in ResolvedBlock.cse)"""
 
 
 python_string = """
