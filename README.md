@@ -83,17 +83,23 @@ With the formula for the [second example](#motivation) it can be done manually t
 ```
 r = (b**2 - b + max(a, c + 1) - max(a, c + 1)**2) / 2
 ```
+#### What to do with min/max?
+The last example contains calls to `min()` and `max()`. As shown above, merging if clauses into for loops also creates such terms.
+
+Unfortunatelly, dealing with `min()` and `max()` isn't exactly straight forward. If you want to understand how it is done take a look at the code, specifically at the `eliminate_symbol_from_max_min()` methods and the `SympyMaxMinSplitter` class.
 ## Usage
 Download [loop-to-constant.py](loop-to-constant.py). At the very end of the file you will find the variable `python_string`. Set it to your Python code (or try the provided example). Execute.
 
 The transformed Python code will be printed to the console. C++ is supported as well: Just below `python_string` change `.dump_python()` to `.dump_cpp()`.
 
-At the very top after the imports there are a few settings. Try manipulating them and see whether/how it affects the result.
+Just above `python_string` there are a few settings. Try manipulating them and see whether/how it affects the result.
 
-Note that the provided examples increment variables (e.g. `r`) which were never defined. That's intentional. The algorithm expects that and assumes these variables to have an initial value of 0.
+Note that the provided examples increment variables (e.g. `r+=...`) which were never defined. That's intentional. The algorithm expects that and assumes these variables to have an initial value of 0.
 ### Dependencies
 - [Sympy](https://www.sympy.org/en/index.html)
 ## A real world example
+Finding a closed from formula for for loops is all well and good, but what do we actually need that for? The example that got me to write this algorithm is this:
+
 ## Performance
 ### Time complexity
 ### Runtime
