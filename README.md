@@ -29,12 +29,40 @@ for i in range(a, b):
     if c < i:
         r += x
 ```
-Still to simple?
+A bit more complex:
 ```
-for x in range(a, b):
-    for y in range(c, d):
-        result += x + y
+for i in range(a, b):
+    for j in range(c, d):
+        r += i + j
 ```
+Even more complex:
+```
+for i in range(a, b):
+    for j in range(c, i):
+        r += j
+```
+Note that the upper border for `j` is  now the index `i` of the enclosing for loop.
+
+But we can go way further:
+```
+for i in range(a, b):
+    for j in range(c, max(f, i)):
+        if e < max(g, i):
+            result += min(h, i) + j
+```
+And so on and so forth.
+Finding closed form solutions to this kind of for loops is what this project aims at.
+## How it works
+The examples above (except the last one) consist of 3 types of expressions: for loops, if clauses and summands. If we find universal transformation rules for these 3 types of expressions we can let a computer do the rest
+#### Merging an if clause into a for loop
+```
+for i in range(a, b):
+    if c < i:
+        r += x
+```
+In words: Sum all integers from `a` (inclusive) to `b` (exclusive) if they are greater than `c`. Rephrased: Sum all integers which are $\ge a$, $\lt b$ and $\gt c$.
+
+## A real world example
 ## Performance
 ### Time complexity
 ### Runtime
