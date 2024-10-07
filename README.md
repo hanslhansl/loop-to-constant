@@ -13,13 +13,13 @@ for i in range(a, b):
 ```
 it is sometimes necessary to compute a sum over a constant.
 
-A trained eye will see that these sums can be replaced by  `r = b - a`.
+A trained eye will see that these sums can be replaced by  $r = b - a$.
 What happens with sums over the index itself?
 ```
 for i in range(a, b):
     r += i
 ```
-With a bit of mathematical finesse one can come with `r = (b**2 - b + a - a**2) / 2`.
+With a bit of mathematical finesse one can come with $r = (b^2 - b + a - a^2) / 2$.
 
 What about $i^2$, $e^i$, ...? The complexity of the summand can of course be increased indefinitely but finding closed form formulas for mathematical sums isn't what this project aims to do.
 
