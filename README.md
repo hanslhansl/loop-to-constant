@@ -1,5 +1,5 @@
 # loop-to-constant
-This repository provides an algorithm for transforming certain for loops into equivalent code with constant time complexity.
+This repository provides an algorithm for optimizing certain for loops by transforming them into equivalent code with constant time complexity.
 Currently, it can parse Python code and output the transformed code in Python and C++.
 ## Motivation
 Both in mathematics
@@ -142,10 +142,12 @@ On my machine for $n_1,...,n_4 \lt 4$ the original code is faster and for $n_1,.
 
 For $n_1,...,n_4 \approx 50$ the transformed code is already thousands of times faster. 
 
-Execute [real_world_example_solution.py](real_world_example_solution.py) to run 
+Execute [real_world_example_solution.py](real_world_example_solution.py) to run these tests on your machine.
+#### Roundup
+For a very small number of iterations the normal code will be faster. Presumably everyone who is interested in optimizing
 ## Performance of the algorithm itself
-
-
+It is slow. Very slow. E.g. [real_world_example_solution.py](real_world_example_solution.py) took more than 10 minutes to transform. I tried to optimize my code as much as possible (altough I don't know much about optimizing Python) but the main problem is [Sympy](https://www.sympy.org/en/index.html) which is written in pure Python. I did some research but I couldn't find any suitable symbolic math library written in a faster language. [Symengine](https://github.com/symengine/symengine) looks promising but doesn't provide the necessary features (inequalities) yet.
+## Downsides
 
 
 
