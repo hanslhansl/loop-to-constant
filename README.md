@@ -63,7 +63,7 @@ Now we can transform for loops over a summand. What if there is an if clause inb
 ```
 for i in range(a, b):
     if c < i:
-        r += x
+        r += i
 ```
 In words: Sum all integers from $a$ (inclusive) to $b$ (exclusive) if they are greater than $c$.
 
@@ -75,9 +75,16 @@ So we are looking at integers which are greater than or equal than both $a$ as w
 Therefor, the example becomes
 ```
 for i in range(max(a, c + 1), b):
-    r += x
+    r += i
 ```
-The formula for the [second example](#motivation)
+That's a for loop over a summand and as mentioned in [Merging an if clause into a for loop](#transforming-a-for-loop-over-a-summand) we can let Sympy do the rest.
+
+With the formula for the [second example](#motivation) it can be done manually too:
+```
+r = (b**2 - b + max(a, c + 1) - max(a, c + 1)**2) / 2
+```
+## Usage
+Download loop-to-constant.py. 
 ## A real world example
 ## Performance
 ### Time complexity
