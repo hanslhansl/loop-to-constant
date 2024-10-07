@@ -53,14 +53,27 @@ for i in range(a, b):
 And so on and so forth.
 Finding closed form solutions to this kind of for loops is what this project aims at.
 ## How it works
-The examples above (except the last one) consist of 3 types of expressions: for loops, if clauses and summands. If we find universal transformation rules for these 3 types of expressions we can let a computer do the rest
+The examples above (except the last one) consist of 3 types of expressions: for loops, if clauses and summands. If we find universal transformation rules for these 3 types of expressions we can let a computer do the rest.
+#### Transforming a for loop over a summand
+As mentioned above this project's goal isn't to solve mathematical problems. Mathematicians have been doing that for hundreds of years. This project uses Sympy, a Python library for symbolic mathematics, to solve these problems.
 #### Merging an if clause into a for loop
 ```
 for i in range(a, b):
     if c < i:
         r += x
 ```
-In words: Sum all integers from `a` (inclusive) to `b` (exclusive) if they are greater than `c`. Rephrased: Sum all integers which are $\ge a$, $\lt b$ and $\gt c$.
+In words: Sum all integers from $a$ (inclusive) to $b$ (exclusive) if they are greater than $c$.
+
+Rephrased: Sum all integers which are $\ge a$, $\lt b$ and $\gt c$.
+
+$\gt c$ can be transformed to $\ge c + 1$ because we are dealing with integers.
+
+So we are looking at integers which are greater than or equal than both $a$ as well as $c + 1$ meaning they need to be $\ge max(a, c + 1)$.
+Therefor, the example becomes
+```
+for i in range(max(a, c + 1), b):
+    r += x
+```
 
 ## A real world example
 ## Performance
