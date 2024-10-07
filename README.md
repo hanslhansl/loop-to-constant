@@ -126,6 +126,21 @@ for i in range(n_1):
 ```
 the complexity is $\mathcal{O}(n_1*n_2)$.
 
-Generally speaking, the complexity of a m-fold for loop is $\mathcal{O}(n_1*...*n_m)$ which can written as $\mathcal{O}(n^m)$. If statements and `min()/max()` terms 
+Generally speaking, the complexity of a m-fold for loop is $\mathcal{O}(n_1*...*n_m)$ which can written as $\mathcal{O}(n^m)$. If statements and `min()/max()` terms affect the value of $n$ but the exponent $m$ stays the same.
+
+The transformed code doesn't contain any loops, only if and arithmetic statements. Therefor the transformed code is of $\mathcal{O}(1)$ complexity.
 ### Runtime
+Trying to predict the performance gain isn't straight forward because of the different time complexities. Yes, the transformed code only consists of constant terms but potentially a lot of them.
+
+Just to give you a feeling, the transformed code of the function describen in [A real world example](#a-real-world-example) has 8000 lines. Even if $n_1,...,n_m$ are all $0$ those lines will get executed every time the function is called. If the original code with 4 nested loops gets called with $n_1,...,n_m$ equal to $0$ only a single condition is executed. On the other hand, for $n_1,...,n_m \approx 50$ the transformed code was thousands of times faster.
+
+So for very small $n$ the ori
+
 ## Performance of the algorithm itself
+
+
+
+
+
+
+
