@@ -84,8 +84,15 @@ With the formula for the [second example](#motivation) it can be done manually t
 r = (b**2 - b + max(a, c + 1) - max(a, c + 1)**2) / 2
 ```
 ## Usage
-Download loop-to-constant.py. At the very end of the file you will find the variable `python_string`. Set it to your Python code (or try the provided example). Execute.
+Download [loop-to-constant.py](loop-to-constant.py). At the very end of the file you will find the variable `python_string`. Set it to your Python code (or try the provided example). Execute.
+
+The transformed Python code will be printed to the console. C++ is supported as well: Just below `python_string` change `.dump_python()` to `.dump_cpp()`.
+
+At the very top after the imports there are a few settings. Try manipulating them and see whether/how it affects the result.
+
+Note that the provided examples increment variables (e.g. `r`) which were never defined. That's intentional. The algorithm expects that and assumes these variables to have an initial value of 0.
 ### Dependencies
+- [Sympy](https://www.sympy.org/en/index.html)
 ## A real world example
 ## Performance
 ### Time complexity
