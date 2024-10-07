@@ -148,6 +148,7 @@ It is slow. Very slow. E.g. [real_world_example_solution.py](real_world_example_
 - Slow in case of few iterations: As explained [here](#runtime).
 - Maintainability: 6000 lines for a computation that can be done with 12? That's aweful. A transformed function should be always be accompanied by a comment containing an explanation and the original code.
 - Transformation is very slow: As explained [here](#performance_of_the_algorithm_itself).
+- The transformed code operates on floats instead of integers because certain transformations require divisions. In theory, it should be possible to solve this issue but I haven't found a way just yet.
 
 
 
