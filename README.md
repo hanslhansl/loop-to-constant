@@ -88,7 +88,7 @@ The last example contains calls to `min()` and `max()`. As shown above, merging 
 
 Unfortunatelly, dealing with `min()` and `max()` isn't exactly straight forward. If you want to understand how it is done take a look at the code, specifically at the `eliminate_symbol_from_max_min()` methods and the `SympyMaxMinSplitter` class.
 ## Usage
-Download [loop-to-constant.py](loop-to-constant.py). At the very end of the file you will find the variable `python_string`. Set it to your Python code (or try the provided example). Execute.
+Download [loop_to_constant.py](loop_to_constant.py). At the very end of the file you will find the variable `python_string`. Set it to your Python code (or try the provided example). Execute.
 
 The transformed Python code will be printed to the console. C++ is supported as well: Just below `python_string` change `.dump_python()` to `.dump_cpp()`.
 
@@ -98,7 +98,7 @@ Note that the provided examples increment variables (e.g. `r+=...`) which were n
 ### Dependencies
 - [Sympy](https://www.sympy.org/en/index.html)
 ## A real world example
-Finding a closed from formula for for loops is all well and good, but what do we actually need that for? The example that got me to write this algorithm is this:
+Finding a closed from formula for for loops is all well and good, but what do we actually need that for? The code that got me to write this algorithm can be found in [real_world_example.cpp](real_world_example.cpp).
 
 ## Performance
 ### Time complexity
