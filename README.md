@@ -101,7 +101,7 @@ Note that the provided examples increment variables (e.g. `r+=...`) which were n
 Finding a closed from formula for for loops is all well and good, but what do we actually need that for? 
 
 Imagine you have $n$ apples to give away and there are $5$ people in need of apples. How many possibilities to distribute your apples to the $5$ people are there?
-If $n = 0$, there are $p = 0$ possibilities.
+If $n = 0$, there are $p = 1$ possibilities.
 If $n = 1$, $p = 5$ because you can give your apple to person $1$, $2$, $3$, $4$ or $5$.
 If $n = 2$, $p = 15$. There actually exists a mathematical formula for this.
 
@@ -111,7 +111,7 @@ The function in [real_world_example.cpp](real_world_example.cpp) returns a `std:
 
 The solution: Using this algorithm to calculate the number of possibilities first. Once you know this number you can reserve just as much memory as necessary resulting in just a single allocation and no reallocations. (Btw., no, a linked list wouldn't have solved the problem. A linked list doesn't require reallocations, yes, but it requires one small allocation per element which is way more expensive than just a single big allocation)
 
-[real_world_example_solution.py](real_world_example.py) contains the naive and transformed implementation of a function that returns the number of possibilities.
+[real_world_example_solution.py](real_world_example_solution.py) contains the naive and the transformed implementation of a function that returns the number of possibilities.
 ## Performance
 ### Time complexity
 The complexity of a simple for loop
@@ -134,10 +134,15 @@ The transformed code doesn't contain any loops, only if and arithmetic statement
 ### Runtime
 Trying to predict the performance gain isn't straight forward because of the different time complexities. Yes, the transformed code only consists of constant terms but potentially a lot of them.
 
-Just to give you a feeling, the transformed code of the function describen in [A real world example](#a-real-world-example) has 6000 lines. Even if $n_1,...,n_m$ are all $0$ those lines will get executed every time the function is called. If the original code with 4 nested loops gets called with $n_1,...,n_m$ equal to $0$ only a single condition is executed which is obviously much faster. On the other hand, for $n_1,...,n_m \approx 50$ the transformed code was thousands of times faster. On my machine for $n_1,...,n_m \lt 4$ the original code is faster and for $n_1,...,n_m \ge 4$ the transformed code is faster.
+Just to give you a feeling, the transformed code in [real_world_example_solution.py](real_world_example_solution.py) has 6000 lines.
 
-So for very small $n$ the ori
+Even if $n_1,...,n_4$ are all $0$ those lines will get executed every time the function is called. If the original code with 4 nested loops gets called with $n_1,...,n_4$ equal to $0$ only a single condition is executed which is obviously much faster.
 
+On my machine for $n_1,...,n_4 \lt 4$ the original code is faster and for $n_1,...,n_4 \ge 4$ the transformed code is faster.
+
+For $n_1,...,n_4 \approx 50$ the transformed code is already thousands of times faster. 
+
+Execute [real_world_example_solution.py](real_world_example_solution.py) to run 
 ## Performance of the algorithm itself
 
 
