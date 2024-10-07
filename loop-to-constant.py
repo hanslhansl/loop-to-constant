@@ -643,13 +643,6 @@ class Python:
 
     pass
 
-class Cpp:
-
-    @staticmethod
-    def parse(string : str, sympy_local_dict : dict[str, sympy.Symbol] | None = None) -> StatementBlock:
-        return StatementBlock()
-
-    pass
 
 
 
