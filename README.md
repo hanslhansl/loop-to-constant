@@ -11,9 +11,8 @@ as well as in programming
 for i in range(a, b):
     r += 1
 ```
-it is sometimes necessary to compute a sum over a constant.
+it is sometimes necessary to compute a sum over a constant. A trained eye will see that these sums can be replaced by  $r = b - a$.
 
-A trained eye will see that these sums can be replaced by  $r = b - a$.
 What happens with sums over the index itself?
 ```
 for i in range(a, b):
