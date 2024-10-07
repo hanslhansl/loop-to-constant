@@ -98,8 +98,18 @@ Note that the provided examples increment variables (e.g. `r+=...`) which were n
 ### Dependencies
 - [Sympy](https://www.sympy.org/en/index.html)
 ## A real world example
-Finding a closed from formula for for loops is all well and good, but what do we actually need that for? The code that got me to write this algorithm can be found in [real_world_example.cpp](real_world_example.cpp).
+Finding a closed from formula for for loops is all well and good, but what do we actually need that for? 
 
+Imagine you have $n$ apples to give away and there are $5$ people in need of apples. How many possibilities to distribute your apples to the $5$ people are there?
+If $n = 0$, there are $p = 0$ possibilities.
+If $n = 1$, $p = 5$ because you can give your apple to person $1$, $2$, $3$, $4$ or $5$.
+If $n = 2$, $p = 15$. There actually exists a mathematical formula for this.
+
+In my situation there were additional constraints: There was a maximum and minimum number of apples per person. The maximum was the same for all persons, the minimum values varied. No formula exists for this modified problem.
+
+The function in [real_world_example.cpp](real_world_example.cpp) returns a `std::vector` of all possible apple distributions (not just the number of possibilities). Depending on the parameters there might be millions of possibilities resulting in millions of calls to `std::vector::push_back` resulting in many, many, many reallocations. Not millions, but still a lot. Reallocations are expensive.
+
+The solution: Using this algorithm to calculate the number of possibilities first. Once you know this number you can reserve just as much memory as necessary resulting in just a single allocation and no reallocations. (Btw., no, a linked list wouldn't have solved the problem. A linked list doesn't require reallocations, yes, but it requires one small allocation per element which is way more expensive than just a single big allocation)
 ## Performance
 ### Time complexity
 ### Runtime
