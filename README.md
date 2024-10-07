@@ -40,7 +40,7 @@ for i in range(a, b):
     for j in range(c, i):
         r += j
 ```
-Note that the upper border for `j` is  now the index `i` of the enclosing for loop.
+Note that the upper border for `j` is  now the index `i` of the enclosing loop.
 
 But we can go way further:
 ```
@@ -51,13 +51,13 @@ for i in range(a, b):
 ```
 And so on and so forth.
 
-These (nested) for loops have in common that they are the programmatic representation of mathematical sums. This project aims at finding closed form solutions to this kind of for loops, that is, transforming them into code without any for loops.
+These (nested) loops have in common that they are the programmatic representation of mathematical sums. This project aims at finding closed form solutions to loops of this kind, that is, transforming them into code without any loops.
 ## How it works
 The examples above (except the last one) consist of 3 types of expressions: for loops, if statements and summands. The goal is to eliminate all for loops. If we find universal transformation rules for these 3 types of expressions we can let a computer do the rest.
-#### Transforming a for loop over a summand
-As mentioned above this project's goal isn't to solve mathematical problems. Mathematicians have been doing that for hundreds of years. This project uses Sympy, a Python library for symbolic mathematics, to solve these problems.
+#### Transforming a for loop over an arithmetic expression
+As mentioned above this project's goal isn't to reinvent the wheel. Instead, it uses [Sympy](https://www.sympy.org/en/index.html), a Python library for symbolic mathematics, to solve these problems.
 
-Now we can transform for loops over a summand. What if there is an if statement inbetween though?
+[Sympy](https://www.sympy.org/en/index.html) can transform for loops over an arithmetic expression. What if there is an if statement inbetween though?
 #### Merging an if statement into a for loop
 ```
 for i in range(a, b):
@@ -70,41 +70,39 @@ Rephrased: Sum all integers which are $\ge a$, $\lt b$ and $\gt c$.
 
 $\gt c$ can be transformed to $\ge c + 1$ because we are dealing with integers.
 
-So we are looking at integers which are greater than or equal than both $a$ as well as $c + 1$ meaning they need to be $\ge max(a, c + 1)$.
-Therefor, the example becomes
+So we are looking at integers which are greater than or equal to both $a$ as well as $c + 1$ meaning they need to be $\ge max(a, c + 1)$. Therefor, the example becomes
 ```
 for i in range(max(a, c + 1), b):
     r += i
 ```
-That's a for loop over a summand and as mentioned in [Merging an if statement into a for loop](#transforming-a-for-loop-over-a-summand) we can let Sympy do the rest.
+That's a for loop over an arithmetic expression and as mentioned [before](#transforming-a-for-loop-over-an-arithmetic-expression) [Sympy](https://www.sympy.org/en/index.html) can do the rest of the work.
 
-With the formula for the [second example](#motivation) it can be done manually too:
+Using the formula for the [second example](#motivation) it can be done manually too:
 ```
 r = (b**2 - b + max(a, c + 1) - max(a, c + 1)**2) / 2
 ```
 #### What to do with min/max?
-The last example contains calls to `min()` and `max()`. As shown above, merging if statements into for loops also creates such terms.
+The last example contains calls to `min()` and `max()` and, as shown above, such terms are also the result of merging if statements into for loops.
 
 Unfortunatelly, dealing with `min()` and `max()` isn't exactly straight forward. If you want to understand how it is done take a look at the code, specifically at the `eliminate_symbol_from_max_min()` methods and the `SympyMaxMinSplitter` class.
 ## Usage
-Download [loop_to_constant.py](loop_to_constant.py). At the very end of the file you will find the variable `python_string`. Set it to your Python code (or try the provided example). Execute.
-
-The transformed Python code will be printed to the console. C++ is supported as well: Just below `python_string` change `.dump_python()` to `.dump_cpp()`.
+Download [loop_to_constant.py](loop_to_constant.py). At the very end of the file you will find the variable `python_string`. Set it to your Python code (or try the provided example). Execute. The transformed Python code will be printed to the console. Output in C++ is supported as well: Just below `python_string` change `.dump_python()` to `.dump_cpp()`.
 
 Just above `python_string` there are a few settings. Try manipulating them and see whether/how it affects the result.
 
 Note that the provided examples increment variables (e.g. `r+=...`) which were never defined. That's intentional. The algorithm expects that and assumes these variables to have an initial value of 0.
-### Dependencies
+#### Dependencies
+- Python
 - [Sympy](https://www.sympy.org/en/index.html)
 ## A real world example
-Finding a closed from formula for for loops is all well and good, but what do we actually need that for? 
+Finding a closed from formula for loops is all well and good, but what do we actually need that for? The problem that led me to write this algorithm was something like this:
 
-Imagine you have $n$ apples to give away and there are $5$ people in need of apples. How many possibilities to distribute your apples to the $5$ people are there?
-If $n = 0$, there are $p = 1$ possibilities.
-If $n = 1$, $p = 5$ because you can give your apple to person $1$, $2$, $3$, $4$ or $5$.
-If $n = 2$, $p = 15$. There actually exists a mathematical formula for this.
+Imagine you have $n$ apples to give away and you have $5$ friends who are in need of apples. In what and in how many ways can you distribute your apples across your friends?
+If $n = 0$, there is $p = 1$ possibility. Everyone gets 0 apples.
+If $n = 1$, $p = 5$ because you can give your apple to friend $1$, $2$, $3$, $4$ or $5$. The others get 0 apples.
+If $n = 2$, $p = 15$.
 
-In my situation there were additional constraints: There was a maximum and minimum number of apples per person. The maximum was the same for all persons, the minimum values varied. No formula exists for this modified problem.
+Let us complicate the problem a bit further by imposing a maximum and minimum number of apples per friend.
 
 The function in [real_world_example.cpp](real_world_example.cpp) returns a `std::vector` of all possible apple distributions (not just the number of possibilities). Depending on the parameters there might be millions of possibilities resulting in millions of calls to `std::vector::push_back` resulting in many, many, many reallocations. Not millions, but still a lot. Reallocations are expensive.
 
