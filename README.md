@@ -110,6 +110,8 @@ In my situation there were additional constraints: There was a maximum and minim
 The function in [real_world_example.cpp](real_world_example.cpp) returns a `std::vector` of all possible apple distributions (not just the number of possibilities). Depending on the parameters there might be millions of possibilities resulting in millions of calls to `std::vector::push_back` resulting in many, many, many reallocations. Not millions, but still a lot. Reallocations are expensive.
 
 The solution: Using this algorithm to calculate the number of possibilities first. Once you know this number you can reserve just as much memory as necessary resulting in just a single allocation and no reallocations. (Btw., no, a linked list wouldn't have solved the problem. A linked list doesn't require reallocations, yes, but it requires one small allocation per element which is way more expensive than just a single big allocation)
+
+[real_world_example_solution.py](real_world_example.py) contains the naive and transformed implementation of a function that returns the number of possibilities.
 ## Performance
 ### Time complexity
 The complexity of a simple for loop
