@@ -21,7 +21,7 @@ for i in range(a, b):
 ```
 With a bit of mathematical finesse one can come with `r = (b**2 - b + a - a**2) / 2`.
 
-What about `i**2`, `e**i`, ...? The complexity of the summand can of course be increased indefinitely but finding closed form formulas for mathematical sums isn't what this project aims to do.
+What about $i^2$, $e^i$, ...? The complexity of the summand can of course be increased indefinitely but finding closed form formulas for mathematical sums isn't what this project aims to do.
 
 Instead, consider another "type" of complexity:
 ```
