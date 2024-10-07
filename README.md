@@ -51,11 +51,14 @@ for i in range(a, b):
             result += min(h, i) + j
 ```
 And so on and so forth.
-Finding closed form solutions to this kind of for loops is what this project aims at.
+
+These (nested) for loops have in common that they are the programmatic representation of mathematical sums. This project aims at finding closed form solutions to this kind of for loops, that is, transforming them into code without any for loops.
 ## How it works
-The examples above (except the last one) consist of 3 types of expressions: for loops, if clauses and summands. If we find universal transformation rules for these 3 types of expressions we can let a computer do the rest.
+The examples above (except the last one) consist of 3 types of expressions: for loops, if clauses and summands. The goal is to eliminate all for loops. If we find universal transformation rules for these 3 types of expressions we can let a computer do the rest.
 #### Transforming a for loop over a summand
 As mentioned above this project's goal isn't to solve mathematical problems. Mathematicians have been doing that for hundreds of years. This project uses Sympy, a Python library for symbolic mathematics, to solve these problems.
+
+Now we can transform for loops over a summand. What if there is an if clause inbetween though?
 #### Merging an if clause into a for loop
 ```
 for i in range(a, b):
@@ -74,7 +77,7 @@ Therefor, the example becomes
 for i in range(max(a, c + 1), b):
     r += x
 ```
-
+The formula for the [second example](#motivation)
 ## A real world example
 ## Performance
 ### Time complexity
