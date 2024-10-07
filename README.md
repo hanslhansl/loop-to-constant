@@ -131,17 +131,17 @@ The transformed code doesn't contain any loops, only if and arithmetic statement
 ### Runtime
 Trying to predict the performance gain isn't straight forward because of the different time complexities. Yes, the transformed code only consists of constant terms but potentially a lot of them.
 
-Just to give you a feeling, the transformed code in [real_world_example_solution.py](real_world_example_solution.py) has 6000 lines whereas the original code has 12.
+Just to give you a feeling, the transformed code in [real_world_example_solution.py](real_world_example_solution.py) has 6000 lines (whereas the original code has 12).
 
 Even if $n_1,...,n_4$ are all $0$ those lines will get executed every time the function is called. If the original code with 4 nested loops gets called with $n_1,...,n_4$ equal to $0$ only a single condition is executed which is obviously much faster.
 
 On my machine for $n_1,...,n_4 \lt 4$ the original code is faster and for $n_1,...,n_4 \ge 4$ the transformed code is faster.
 
-For $n_1,...,n_4 \approx 50$ the transformed code is already thousands of times faster. 
+For $n_1,...,n_4 = 50$ the transformed code is already thousands of times faster.
 
 Execute [real_world_example_solution.py](real_world_example_solution.py) to run these tests on your machine.
 #### Roundup
-For a very small number of iterations the normal code will be faster. For more than *a very small number of iterations* the transformed code will be orders of magnitude faster.
+For a very small number of iterations the normal code will be faster. For more than *a very small number of iterations* the transformed code will be orders of magnitude faster. The more iterations the greater the speed-up.
 ## Performance of the algorithm itself
 It is slow. Very slow. E.g. [real_world_example_solution.py](real_world_example_solution.py) took more than 10 minutes to transform. I tried to optimize my code as much as possible (altough I don't know much about optimizing Python) but the main problem is [Sympy](https://www.sympy.org/en/index.html) which is written in pure Python. I did some research but I couldn't find any suitable symbolic math library written in a faster language. [Symengine](https://github.com/symengine/symengine) looks promising but doesn't provide the necessary features (handling of inequalities) yet.
 ## Downsides
