@@ -75,9 +75,9 @@ So we are looking at integers which are greater than or equal to both $a$ as wel
 for i in range(max(a, c + 1), b):
     r += i
 ```
-That's a for loop over an arithmetic expression and as mentioned [before](#transforming-a-for-loop-over-an-arithmetic-expression) [Sympy](https://www.sympy.org/en/index.html) can do the rest of the work.
+That's a for loop over an arithmetic expression and as mentioned [before](#transforming-a-for-loop-over-an-arithmetic-expression) Sympy can do the rest of the work.
 
-Using the formula for the [second example](#motivation) it can be done manually too:
+Using the solution for the [second example](#motivation) it can be done manually too:
 ```
 r = (b**2 - b + max(a, c + 1) - max(a, c + 1)**2) / 2
 ```
@@ -131,7 +131,7 @@ The transformed code doesn't contain any loops, only if and arithmetic statement
 ### Runtime
 Trying to predict the performance gain isn't straight forward because of the different time complexities. Yes, the transformed code only consists of constant terms but potentially a lot of them.
 
-Just to give you a feeling, the transformed code in [real_world_example_solution.py](real_world_example_solution.py) has 6000 lines (whereas the original code has 12).
+The example provided [above](#a_real_world_example) is an extreme case: The transformed code has 6000 lines whereas the original code has only 12.
 
 Even if $n_1,...,n_4$ are all $0$ those lines will get executed every time the function is called. If the original code with 4 nested loops gets called with $n_1,...,n_4$ equal to $0$ only a single condition is executed which is obviously much faster.
 
@@ -145,9 +145,9 @@ For a very small number of iterations the normal code will be faster. For more t
 ## Performance of the algorithm itself
 It is slow. Very slow. E.g. [real_world_example_solution.py](real_world_example_solution.py) took more than 10 minutes to transform. I tried to optimize my code as much as possible (altough I don't know much about optimizing Python) but the main problem is [Sympy](https://www.sympy.org/en/index.html) which is written in pure Python. I did some research but I couldn't find any suitable symbolic math library written in a faster language. [Symengine](https://github.com/symengine/symengine) looks promising but doesn't provide the necessary features (handling of inequalities) yet.
 ## Downsides
-- Slow in case of few iterations: As explained [here](#runtime).
+- Slow in case of few iterations. Explained under [runtime](#runtime).
 - Maintainability: 6000 lines for a computation that can be done with 12? That's aweful. A transformed function should be always be accompanied by a comment containing an explanation and the original code.
-- Transformation is very slow: As explained [here](#performance_of_the_algorithm_itself).
+- Transformation is very slow. Explained under [Performance of the algorithm itself](#performance_of_the_algorithm_itself).
 - The transformed code operates on floats instead of integers because certain transformations require divisions. In theory, it should be possible to solve this issue but I haven't found a way just yet.
 
 
