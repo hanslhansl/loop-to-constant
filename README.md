@@ -131,7 +131,7 @@ The transformed code doesn't contain any loops, only if and arithmetic statement
 ### Runtime
 Trying to predict the performance gain isn't straight forward because of the different time complexities. Yes, the transformed code only consists of constant terms but potentially a lot of them.
 
-The example provided [above](#a-real-world-example) is an extreme case: The transformed code has 6000 lines whereas the original code has only 12.
+The example provided under [A real world example](#a-real-world-example) is an extreme case: The transformed code has 6000 lines whereas the original code has only 12.
 
 Even if $n_1,...,n_4$ are all $0$ those lines will get executed every time the function is called. If the original code with 4 nested loops gets called with $n_1,...,n_4$ equal to $0$ only a single condition is executed which is obviously much faster.
 
