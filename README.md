@@ -1,5 +1,5 @@
 # loop-to-constant
-This repository provides an algorithm for optimizing certain for loops by transforming them into equivalent code with constant time complexity. This allows for speed-ups of several orders of magnitude.
+This repository provides an algorithm which optimizes certain for loops by transforming them into equivalent code of constant time complexity. This allows for speed-ups of several orders of magnitude.
 Currently, it can parse Python code and output the transformed code in Python and C++.
 ## Motivation
 Both in mathematics
