@@ -7,14 +7,14 @@ Both in mathematics
 $r = \sum_{i=a}^{b-1} 1$
 
 as well as in programming 
-```
+```Python
 for i in range(a, b):
     r += 1
 ```
 it is sometimes necessary to compute a sum over a constant. A trained eye will see that these sums can be replaced with  $r = b - a$.
 
 What happens with sums over the index itself?
-```
+```Python
 for i in range(a, b):
     r += i
 ```
@@ -23,19 +23,19 @@ With a bit of mathematical finesse one can come with $r = (b^2 - b + a - a^2) / 
 What about $i^2$, $e^i$, ...? The complexity of the summand can of course be increased indefinitely but finding closed form formulas for mathematical sums isn't what this project aims to do.
 
 Instead, consider another "type" of complexity:
-```
+```Python
 for i in range(a, b):
     if c < i:
         r += x
 ```
 A bit more complex:
-```
+```Python
 for i in range(a, b):
     for j in range(c, d):
         r += i + j
 ```
 Even more complex:
-```
+```Python
 for i in range(a, b):
     for j in range(c, i):
         r += j
@@ -43,7 +43,7 @@ for i in range(a, b):
 Note that the upper border for `j` is  now the index `i` of the enclosing loop.
 
 But we can go way further:
-```
+```Python
 for i in range(a, b):
     for j in range(c, max(f, i)):
         if e < max(g, i):
@@ -59,7 +59,7 @@ As mentioned above this project's goal isn't to reinvent the wheel. Instead, it 
 
 [Sympy](https://www.sympy.org/en/index.html) can transform for loops over an arithmetic expression. What if there is an if statement inbetween though?
 #### Merging an if statement into a for loop
-```
+```Python
 for i in range(a, b):
     if c < i:
         r += i
@@ -71,14 +71,14 @@ Rephrased: Sum all integers which are $\ge a$, $\lt b$ and $\gt c$.
 $\gt c$ can be transformed to $\ge c + 1$ because we are dealing with integers.
 
 So we are looking at integers which are greater than or equal to both $a$ as well as $c + 1$ meaning they need to be $\ge max(a, c + 1)$. Therefor, the example becomes
-```
+```Python
 for i in range(max(a, c + 1), b):
     r += i
 ```
 That's a for loop over an arithmetic expression and as mentioned [before](#transforming-a-for-loop-over-an-arithmetic-expression) Sympy can do the rest of the work.
 
 Using the solution for the [second example](#motivation) it can be done manually too:
-```
+```Python
 r = (b**2 - b + max(a, c + 1) - max(a, c + 1)**2) / 2
 ```
 #### What to do with min/max?
@@ -112,13 +112,13 @@ The solution: Using this algorithm to calculate the number of possibilities firs
 ## Performance
 ### Time complexity
 The complexity of a simple for loop
-```
+```Python
 for i in range(n):
     ...
 ```
 is $\mathcal{O}(n)$.
 For a nested for loop
-```
+```Python
 for i in range(n_1):
     for j in range(n_2):
         ...
@@ -149,7 +149,3 @@ It is slow. Very slow. E.g. [real_world_example_solution.py](real_world_example_
 - Maintainability: 6000 lines for a computation that can be done with 12? That's aweful. A transformed function should be always be accompanied by a comment containing an explanation and the original code.
 - Transformation is very slow. Explained under [Performance of the algorithm itself](#performance-of-the-algorithm-itself).
 - The transformed code operates on floats instead of integers because certain transformations require divisions. In theory, it should be possible to solve this issue but I haven't found a way just yet.
-
-
-
-
