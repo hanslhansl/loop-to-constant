@@ -127,7 +127,7 @@ is $\mathcal{O}(n_1*n_2)$.
 
 Generally speaking, the complexity of an m-fold for-loop is $\mathcal{O}(n_1*...*n_m)$ which can be written as $\mathcal{O}(n^m)$. If-statements and `min()/max()` terms affect the value of $n$ but the exponent $m$ stays the same.
 
-The transformed code doesn't contain any loops, only if and arithmetic statements. Therefor the transformed code is of $\mathcal{O}(1)$ complexity.
+The transformed code doesn't contain any loops, only if-statements and arithmetic statements. Therefor the transformed code is of $\mathcal{O}(1)$ complexity.
 ### Runtime
 Trying to predict the performance gain isn't straight forward because of the different time complexities. Yes, the transformed code only consists of constant terms but potentially a lot of them.
 
