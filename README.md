@@ -95,7 +95,7 @@ Note that the provided examples increment variables (e.g. `r+=...`) which were n
 - Python
 - [Sympy](https://www.sympy.org/en/index.html)
 ## A real world example
-Finding a closed from formula for-loops is all well and good, but what do we actually need that for? The problem that led me to write this algorithm went something like this:
+Finding a closed form formula for loops is all well and good, but what do we actually need that for? The problem that led me to write this algorithm went something like this:
 
 Imagine you have $n$ apples to give away and you have $5$ friends who are in need of apples. In what and in how many ways can you distribute your apples across your friends?
 If $n = 0$, there is $p = 1$ possibility. Everyone gets 0 apples.
