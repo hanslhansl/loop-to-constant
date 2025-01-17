@@ -125,7 +125,7 @@ for i in range(n_1):
 ```
 is $\mathcal{O}(n_1*n_2)$.
 
-Generally speaking, the complexity of an m-fold for-loop is $\mathcal{O}(n_1*...*n_m)$ which can written as $\mathcal{O}(n^m)$. If statements and `min()/max()` terms affect the value of $n$ but the exponent $m$ stays the same.
+Generally speaking, the complexity of an m-fold for-loop is $\mathcal{O}(n_1*...*n_m)$ which can be written as $\mathcal{O}(n^m)$. If-statements and `min()/max()` terms affect the value of $n$ but the exponent $m$ stays the same.
 
 The transformed code doesn't contain any loops, only if and arithmetic statements. Therefor the transformed code is of $\mathcal{O}(1)$ complexity.
 ### Runtime
