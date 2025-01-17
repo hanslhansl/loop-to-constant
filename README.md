@@ -1,5 +1,5 @@
 # loop-to-constant
-This repository provides an algorithm which optimizes certain for loops by transforming them into equivalent code of constant time complexity. This allows for speed-ups of several orders of magnitude.
+This repository provides an algorithm which optimizes certain for-loops by transforming them into equivalent code of constant time complexity. This allows for speed-ups of several orders of magnitude.
 Currently, it can parse Python code and output the transformed code in Python and C++.
 ## Motivation
 Both in mathematics
@@ -53,12 +53,12 @@ And so on and so forth.
 
 These (nested) loops have in common that they are the programmatic representation of mathematical sums. This project aims at finding closed form solutions to loops of this kind, that is, transforming them into code without any loops.
 ## How it works
-The examples above (except the last one) consist of 3 types of expressions: for loops, if statements and summands. The goal is to eliminate all for loops. If we find universal transformation rules for these 3 types of expressions we can let a computer do the rest.
-#### Transforming a for loop over an arithmetic expression
+The examples above (except the last one) consist of 3 types of expressions: for-loops, if statements and summands. The goal is to eliminate all for-loops. If we find universal transformation rules for these 3 types of expressions we can let a computer do the rest.
+#### Transforming a for-loop over an arithmetic expression
 As mentioned above this project's goal isn't to reinvent the wheel. Instead, it uses [Sympy](https://www.sympy.org/en/index.html), a Python library for symbolic mathematics, to solve these problems.
 
-[Sympy](https://www.sympy.org/en/index.html) can transform for loops over an arithmetic expression. What if there is an if statement inbetween though?
-#### Merging an if statement into a for loop
+[Sympy](https://www.sympy.org/en/index.html) can transform for-loops over an arithmetic expression. What if there is an if statement inbetween though?
+#### Merging an if statement into a for-loop
 ```Python
 for i in range(a, b):
     if c < i:
@@ -75,14 +75,14 @@ So we are looking at integers which are greater than or equal to both $a$ as wel
 for i in range(max(a, c + 1), b):
     r += i
 ```
-That's a for loop over an arithmetic expression and as mentioned [before](#transforming-a-for-loop-over-an-arithmetic-expression) Sympy can do the rest of the work.
+That's a for-loop over an arithmetic expression and as mentioned [before](#transforming-a-for-loop-over-an-arithmetic-expression) Sympy can do the rest of the work.
 
 Using the solution for the [second example](#motivation) it can be done manually too:
 ```Python
 r = (b**2 - b + max(a, c + 1) - max(a, c + 1)**2) / 2
 ```
 #### What to do with min/max?
-The last example contains calls to `min()` and `max()` and, as shown above, such terms are also the result of merging if statements into for loops.
+The last example contains calls to `min()` and `max()` and, as shown above, such terms are also the result of merging if statements into for-loops.
 
 Unfortunatelly, dealing with `min()` and `max()` isn't exactly straight forward. If you want to understand how it is done take a look at the code, specifically at the `eliminate_symbol_from_max_min()` methods and the `SympyMaxMinSplitter` class.
 ## Usage
@@ -95,7 +95,7 @@ Note that the provided examples increment variables (e.g. `r+=...`) which were n
 - Python
 - [Sympy](https://www.sympy.org/en/index.html)
 ## A real world example
-Finding a closed from formula for loops is all well and good, but what do we actually need that for? The problem that led me to write this algorithm was something like this:
+Finding a closed from formula for-loops is all well and good, but what do we actually need that for? The problem that led me to write this algorithm went something like this:
 
 Imagine you have $n$ apples to give away and you have $5$ friends who are in need of apples. In what and in how many ways can you distribute your apples across your friends?
 If $n = 0$, there is $p = 1$ possibility. Everyone gets 0 apples.
@@ -111,21 +111,21 @@ The solution: Using this algorithm to calculate the number of possibilities firs
 [real_world_example_solution.py](real_world_example_solution.py) contains the naive and the transformed implementation of a function that returns the number of possibilities.
 ## Performance
 ### Time complexity
-The complexity of a simple for loop
+The complexity of a simple for-loop
 ```Python
 for i in range(n):
     ...
 ```
 is $\mathcal{O}(n)$.
-For a nested for loop
+The complexity of a nested for-loop
 ```Python
 for i in range(n_1):
     for j in range(n_2):
         ...
 ```
-the complexity is $\mathcal{O}(n_1*n_2)$.
+is $\mathcal{O}(n_1*n_2)$.
 
-Generally speaking, the complexity of a m-fold for loop is $\mathcal{O}(n_1*...*n_m)$ which can written as $\mathcal{O}(n^m)$. If statements and `min()/max()` terms affect the value of $n$ but the exponent $m$ stays the same.
+Generally speaking, the complexity of an m-fold for-loop is $\mathcal{O}(n_1*...*n_m)$ which can written as $\mathcal{O}(n^m)$. If statements and `min()/max()` terms affect the value of $n$ but the exponent $m$ stays the same.
 
 The transformed code doesn't contain any loops, only if and arithmetic statements. Therefor the transformed code is of $\mathcal{O}(1)$ complexity.
 ### Runtime
