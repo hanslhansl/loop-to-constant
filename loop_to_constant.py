@@ -1,10 +1,23 @@
 from __future__ import annotations
-import typing, random, sys, abc, ast, copy, types
+import typing, ast
 import sympy, sympy.logic.boolalg as boolalg, sympy.core, sympy.core.relational, sympy.core.numbers, sympy.core.add
 
 
 
-
+print_info = True
+"""print debug info to the terminal (in ResolvedIf.eliminate_symbol_from_max_min and Increment.eliminate_symbol_from_max_min)"""
+simplify_increment_expression = False
+"""simplify the increment expression passed to Increment.__init__"""
+simplify_condition = False
+"""simplify the condition passed to If.__init__ and ResolvedIf.from_condition"""
+simplify_dnf = True
+"""force sympy.to_dnf to simplify its result (in If.resolve)"""
+merge_sibling_increment_statements = True
+"""merge two increment statements if they have the same symbol (in StatementBlock.resolve)"""
+conjoin_sibling_if_statements = True
+"""merge two sibling if clauses if they have the same condition (in StatementBlock.resolve)"""
+evaluate_common_subexpressions = True
+"""identify common subexpressions, collect them and evaluate them at once (in ResolvedBlock.cse)"""
 
 
 Inequality = sympy.GreaterThan | sympy.LessThan | sympy.StrictGreaterThan | sympy.StrictLessThan
@@ -516,7 +529,7 @@ class CSEBlock(list[ResolvedIf | Increment| Assignment]):
 
         return return_string
 
-    def dump_cpp(self, integer_type : str = "long long", force_braces : bool = False) -> str:
+    def dump_cpp(self, integer_type : str = "long long", force_braces : bool = False, beginning_brace_on_same_line : bool = False) -> str:
         return_string = ""
 
         for statement in self:
@@ -524,9 +537,14 @@ class CSEBlock(list[ResolvedIf | Increment| Assignment]):
                 return_string += f"{sympy.cxxcode(statement.symbol)} += {sympy.cxxcode(statement.expression)};\n"
 
             elif isinstance(statement, ResolvedIf):
-                return_string += f"if ({sympy.cxxcode(statement.condition)})\n"
+                return_string += f"if ({sympy.cxxcode(statement.condition)})"
                 if len(statement.block) != 1 or force_braces:
-                    return_string += "{\n"
+                    if beginning_brace_on_same_line:
+                        return_string += " "
+                    else:
+                        return_string += "\n"
+                    return_string += "{"
+                return_string += "\n"
                 for increment in statement.block:
                     return_string += f"    {sympy.cxxcode(increment.symbol)} += {sympy.cxxcode(increment.expression)};\n"
                 if len(statement.block) != 1 or force_braces:
@@ -630,24 +648,8 @@ class Python:
 
     pass
 
-
-print_info = True
-"""print debug info to the terminal (in ResolvedIf.eliminate_symbol_from_max_min and Increment.eliminate_symbol_from_max_min)"""
-simplify_increment_expression = False
-"""simplify the increment expression passed to Increment.__init__"""
-simplify_condition = False
-"""simplify the condition passed to If.__init__ and ResolvedIf.from_condition"""
-simplify_dnf = True
-"""force sympy.to_dnf to simplify its result (in If.resolve)"""
-merge_sibling_increment_statements = True
-"""merge two increment statements if they have the same symbol (in StatementBlock.resolve)"""
-conjoin_sibling_if_statements = True
-"""merge two sibling if clauses if they have the same condition (in StatementBlock.resolve)"""
-evaluate_common_subexpressions = True
-"""identify common subexpressions, collect them and evaluate them at once (in ResolvedBlock.cse)"""
-
-
-python_string = """
+if __name__ == "__main__":
+    python_string = """
 for x in range(a + 1, b + 1):
     if c < x:
         r += 2
@@ -665,9 +667,8 @@ for x in range(a + 1, b + 1):
     else:
         r2 += x * 10
     r += x * 2
-"""
-
-
-resolved_string = Python.parse(python_string).resolve().cse().dump_python()
-print("\ncse:")
-print(resolved_string)
+    """
+    
+    cse = Python.parse(python_string).resolve().cse()
+    print(f"\ncse:\n{cse.dump_python()}")
+    print(f"\ncse:\n{cse.dump_cpp()}")
