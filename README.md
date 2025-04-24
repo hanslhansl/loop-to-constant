@@ -146,6 +146,6 @@ For a very small number of iterations the normal code will be faster. For more t
 It is slow. Very slow. E.g. [real_world_example_solution.py](real_world_example_solution.py) took more than 10 minutes to transform. I tried to optimize my code as much as possible (altough I don't know much about optimizing Python) but the main problem is [Sympy](https://www.sympy.org/en/index.html) which is written in pure Python. I did some research but I couldn't find any suitable symbolic math library written in a faster language. [Symengine](https://github.com/symengine/symengine) looks promising but doesn't provide the necessary features (handling of inequalities) yet.
 ## Downsides
 - Slow in case of few iterations. Explained under [Runtime](#runtime).
-- Maintainability: 6000 lines for a computation that can be done with 12? That's aweful. A transformed function should be always be accompanied by a comment containing an explanation and the original code.
+- Maintainability: 6000 lines for a computation that can be done with 12? That's aweful. A transformed function should always be accompanied by a comment containing an explanation and the original code.
 - Transformation is very slow. Explained under [Performance of the algorithm itself](#performance-of-the-algorithm-itself).
 - The transformed code operates on floats instead of integers because certain transformations require divisions. In theory, it should be possible to solve this issue but I haven't found a way just yet.
