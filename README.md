@@ -86,9 +86,11 @@ The last example contains calls to `min()` and `max()` and, as shown above, such
 
 Unfortunatelly, dealing with `min()` and `max()` isn't exactly straight forward. If you want to understand how it is done take a look at the code, specifically at the `eliminate_symbol_from_max_min()` methods and the `SympyMaxMinSplitter` class.
 ## Usage
-Download [loop_to_constant.py](loop_to_constant.py). At the very end of the file you will find the variable `python_string`. Set it to your Python code (or try the provided example). Execute. The transformed Python code will be printed to the console. Output in C++ is supported as well: Just below `python_string` change `.dump_python()` to `.dump_cpp()`.
+Download [loop_to_constant.py](loop_to_constant.py). At the very end of the file you will find a small example. It outputs the transformed code in Python and C++. You can modify the input code snippet to fit your case.
 
-Just above `python_string` there are a few settings. Try manipulating them and see whether/how it affects the result.
+The file can also be imported and used in your project.
+
+At the top of the file there are a few settings. Try manipulating them and see whether/how it affects the result.
 
 Note that the provided examples increment variables (e.g. `r+=...`) which were never defined. That's intentional. The algorithm expects that and assumes these variables to have an initial value of 0.
 #### Dependencies
