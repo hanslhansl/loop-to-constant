@@ -1,8 +1,3 @@
-from __future__ import annotations
-import typing, ast
-import sympy, sympy.logic.boolalg as boolalg, sympy.core, sympy.core.relational, sympy.core.numbers, sympy.core.add
-
-
 
 print_info = True
 """print debug info to the terminal (in ResolvedIf.eliminate_symbol_from_max_min and Increment.eliminate_symbol_from_max_min)"""
@@ -19,6 +14,11 @@ conjoin_sibling_if_statements = True
 evaluate_common_subexpressions = True
 """identify common subexpressions, collect them and evaluate them at once (in ResolvedBlock.cse)"""
 
+
+
+from __future__ import annotations
+import typing, ast
+import sympy, sympy.logic.boolalg as boolalg, sympy.core, sympy.core.relational, sympy.core.numbers, sympy.core.add
 
 Inequality = sympy.GreaterThan | sympy.LessThan | sympy.StrictGreaterThan | sympy.StrictLessThan
 In_Equality = Inequality | sympy.Equality
@@ -670,5 +670,6 @@ for x in range(a + 1, b + 1):
     """
     
     cse = Python.parse(python_string).resolve().cse()
-    print(f"\ncse:\n{cse.dump_python()}")
-    print(f"\ncse:\n{cse.dump_cpp()}")
+    print()
+    print(f"python:\n{cse.dump_python()}")
+    print(f"c++:\n{cse.dump_cpp()}")
