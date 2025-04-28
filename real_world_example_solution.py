@@ -1,4 +1,5 @@
-import time
+import time, numpy as np, matplotlib.pyplot as plt
+from concurrent.futures import ProcessPoolExecutor
 
 def naive(SUM, min0, min1, min2, min3, min4, UPPER):
     result = 0
@@ -6592,21 +6593,67 @@ def transformed(SUM, min0, min1, min2, min3, min4, UPPER):
 
     return result
 
-def run_test(n):
+def run_naive(n):
     args = (n * 4, 0, 0, 0, 0, 0, 99)
-
     t1 = time.perf_counter()
     naive_result = naive(*args)
     t2 = time.perf_counter()
+    return t2 - t1
+def run_transformed(n):
+    args = (n * 4, 0, 0, 0, 0, 0, 99)
+    t2 = time.perf_counter()
     transformed_result = transformed(*args)
     t3 = time.perf_counter()
+    return t3 - t2
 
-    print(f"n_1,...,n_4 = {n}")
-    print(f"naive result is {naive_result} and took {t2 - t1}s")
-    print(f"transformed result is {transformed_result} and took {t3 - t2}s which is {(t2 - t1)/(t3 - t2)} times faster")
-    print()
-    
-run_test(0)
-run_test(3)
-run_test(4)
-run_test(50)
+def split_list_interval(l, n):
+    b = len(l)
+    idx = [b * (i / n) ** (1/2) for i in range(n + 1)]
+    return [l[round(idx[i]) : round(idx[i+1])] for i in range(len(idx) - 1)]
+
+def run_naive_vec(n):
+    l = [run_naive(i) for i in n]
+    print(f"done: {n}")
+    return l
+
+if __name__ == '__main__':
+    # Create integer n values from 0 to ...
+    n = list(range(0, 101, 1))
+    threads = 8
+
+
+    # Calculate y values for each function
+    with ProcessPoolExecutor(threads) as executor:
+        #t_naive = list(executor.map(run_naive, n, chunksize=int(len(n) / threads)))
+        subarrays = split_list_interval(n, threads)
+        running_tasks = [executor.submit(run_naive_vec, subarrays[i]) for i in range(threads)]
+        t_naive = sum((running_task.result() for running_task in running_tasks), [])
+
+        #t_naive = np.vectorize(run_naive)(n)
+    t_transformed = np.vectorize(run_transformed)(n)
+
+    # Final estimate for c (mean)
+    naive_coefficients = np.polyfit(n, t_naive, 5)
+    naive_polynomial = np.poly1d(naive_coefficients)
+    naive_polynomial_estimate = naive_polynomial(n)
+
+    transformed_c = np.mean(t_transformed)
+    transformed_c_estimate = [transformed_c for _ in n]
+
+    # Plot the functions
+    plt.plot(n, t_naive, label=f'naive, total={np.sum(t_naive)}s')
+    # plt.plot(n, naive_polynomial_estimate, label=f'fitted naive, c: {",".join(str(fl) for fl in naive_coefficients)}')
+    plt.plot(n, t_transformed, label=f'transformed, total={np.sum(t_transformed)}s')
+    plt.plot(n, transformed_c_estimate, label=f'fitted transformed, c={transformed_c}')
+
+    # Add a legend
+    plt.legend()
+
+    # Add grid, title, and labels
+    plt.grid(True)
+    plt.title('Plot of naive and transformed runtime')
+    plt.xlabel('n')
+    plt.ylabel('t [s]')
+
+    # Show the plot
+    plt.show()
