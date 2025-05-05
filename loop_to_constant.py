@@ -1,3 +1,7 @@
+from __future__ import annotations
+import typing, ast
+import sympy, sympy.logic.boolalg as boolalg, sympy.core, sympy.core.relational, sympy.core.numbers, sympy.core.add
+
 
 print_info = True
 """print debug info to the terminal (in ResolvedIf.eliminate_symbol_from_max_min and Increment.eliminate_symbol_from_max_min)"""
@@ -14,11 +18,6 @@ conjoin_sibling_if_statements = True
 evaluate_common_subexpressions = True
 """identify common subexpressions, collect them and evaluate them at once (in ResolvedBlock.cse)"""
 
-
-
-from __future__ import annotations
-import typing, ast
-import sympy, sympy.logic.boolalg as boolalg, sympy.core, sympy.core.relational, sympy.core.numbers, sympy.core.add
 
 Inequality = sympy.GreaterThan | sympy.LessThan | sympy.StrictGreaterThan | sympy.StrictLessThan
 In_Equality = Inequality | sympy.Equality
@@ -654,22 +653,38 @@ for x in range(a + 1, b + 1):
     if c < x:
         r += 2
     if c < x:
-        r += x + 1
-        r2 += 2 + x
-        r += 3*x + 7
-        if c < y:
-            k = y * 7
-            r += max(k, x + 1)
-            r += k
-            for z in range(q + 1, max(500, x + 1)):
-            #for z in range(q + 1, x + 1):
-                r += 5
-    else:
-        r2 += x * 10
-    r += x * 2
+        # r += x + 1
+        # r2 += 2 + x
+        # r += 3*x + 7
+        # if c < y:
+        #     k = y * 7
+        #     r += max(k, x + 1)
+        #     r += k
+             for z in range(q + 1, max(500, x + 1)):
+        #     #for z in range(q + 1, x + 1):
+                 r += 5
+    # else:
+        #r 2 += x * 10
+        # r += x * 2
     """
     
+    python_string = """
+#for i in range(min0, min(UPPER, SUM) + 1):
+
+#SUM_i = SUM - i
+#for j in range(min1, min(UPPER, SUM_i) + 1):
+
+SUM_i_j = SUM_i - j
+for k in range(min2, min(UPPER, SUM_i_j) + 1):
+    SUM_i_j_k = SUM_i_j - k
+    for l in range(min3, min(UPPER, SUM_i_j_k) + 1):
+        SUM_i_j_k_l = SUM_i_j_k - l
+        m = SUM_i_j_k_l
+        if (min4 <= m) & (m <= UPPER):
+            result += 1
+    """
+
     cse = Python.parse(python_string).resolve().cse()
     print()
     print(f"python:\n{cse.dump_python()}")
-    print(f"c++:\n{cse.dump_cpp()}")
+    #print(f"c++:\n{cse.dump_cpp()}")
