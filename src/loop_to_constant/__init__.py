@@ -3,11 +3,11 @@ import typing, ast
 import sympy, sympy.logic.boolalg as boolalg, sympy.core, sympy.core.relational, sympy.core.numbers, sympy.core.add
 
 
-print_info = True
+print_info = False
 """print debug info to the terminal (in ResolvedIf.eliminate_symbol_from_max_min and Increment.eliminate_symbol_from_max_min)"""
-simplify_increment_expression = False
+simplify_increment_expression = True
 """simplify the increment expression passed to Increment.__init__"""
-simplify_condition = False
+simplify_condition = True
 """simplify the condition passed to If.__init__ and ResolvedIf.from_condition"""
 simplify_dnf = True
 """force sympy.to_dnf to simplify its result (in If.resolve)"""
@@ -526,6 +526,9 @@ class CSEBlock(list[ResolvedIf | Increment| Assignment]):
             else:
                 raise Exception(f"unexpected statement {statement}")
 
+        if return_string.endswith("\n"):
+            return_string = return_string[:-1]
+
         return return_string
 
     def dump_cpp(self, integer_type : str = "long long", force_braces : bool = False, beginning_brace_on_same_line : bool = False) -> str:
@@ -554,6 +557,9 @@ class CSEBlock(list[ResolvedIf | Increment| Assignment]):
   
             else:
                 raise Exception(f"unexpected statement {statement}")
+            
+        if return_string.endswith("\n"):
+            return_string = return_string[:-1]
 
         return return_string
 
@@ -646,45 +652,3 @@ class Python:
         return Python._parse_block(ast.parse(string).body, sympy_local_dict, set(), set(), dict())
 
     pass
-
-if __name__ == "__main__":
-    python_string = """
-for x in range(a + 1, b + 1):
-    if c < x:
-        r += 2
-    if c < x:
-        # r += x + 1
-        # r2 += 2 + x
-        # r += 3*x + 7
-        # if c < y:
-        #     k = y * 7
-        #     r += max(k, x + 1)
-        #     r += k
-             for z in range(q + 1, max(500, x + 1)):
-        #     #for z in range(q + 1, x + 1):
-                 r += 5
-    # else:
-        #r 2 += x * 10
-        # r += x * 2
-    """
-    
-    python_string = """
-#for i in range(min0, min(UPPER, SUM) + 1):
-
-#SUM_i = SUM - i
-#for j in range(min1, min(UPPER, SUM_i) + 1):
-
-SUM_i_j = SUM_i - j
-for k in range(min2, min(UPPER, SUM_i_j) + 1):
-    SUM_i_j_k = SUM_i_j - k
-    for l in range(min3, min(UPPER, SUM_i_j_k) + 1):
-        SUM_i_j_k_l = SUM_i_j_k - l
-        m = SUM_i_j_k_l
-        if (min4 <= m) & (m <= UPPER):
-            result += 1
-    """
-
-    cse = Python.parse(python_string).resolve().cse()
-    print()
-    print(f"python:\n{cse.dump_python()}")
-    #print(f"c++:\n{cse.dump_cpp()}")
