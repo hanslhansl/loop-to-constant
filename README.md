@@ -2,11 +2,6 @@
 This project implements an algorithm which optimizes certain for-loops by transforming them into equivalent code of constant time complexity. This allows for speed-ups of several orders of magnitude.
 Currently, it can parse Python code and output the transformed code in Python and C++.
 
-## Install from Git
-```bash
-python -m pip install "git+https://github.com/hanslhansl/loop-to-constant.git"
-```
-
 ## Motivation
 Both in mathematics
 
